@@ -1,6 +1,6 @@
 {
   "name": "deletemail",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "",
   "main": "Code.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "url": "https://github.com/fstemarie/DeleteMail/issues"
   },
   "homepage": "https://github.com/fstemarie/DeleteMail#readme",
-  "dependencies": {
+  "devDependencies": {
     "@types/google-apps-script": "^1.0.12"
   }
 }
