@@ -1,47 +1,63 @@
 {
-  "timeZone": "America/New_York",
-  "dependencies": {
-    "libraries": [{
-      "userSymbol": "BetterLog",
-      "libraryId": "1DSyxam1ceq72bMHsE6aOVeOl94X78WCwiYPytKi7chlg4x5GqiNXSw0l",
-      "version": "27"
-    }]
-  },
-  "exceptionLogging": "STACKDRIVER",
-  "urlFetchWhitelist": [],
-  "runtimeVersion": "V8",
-  "addOns": {
-    "common": {
-      "name": "DisposeMail",
-      "logoUrl": "https://cdn1.iconfinder.com/data/icons/crowns/154/simple-crown-512.png",
-      "homepageTrigger": {
-        "runFunction": "onHomepage",
-        "enabled": false
-      },
-      "universalActions": [{
-        "label": "label",
-        "openLink": "http://example.com"
-      }, {
-        "label": "label2",
-        "openLink": "http://example.com"
-      }]
-    },
-    "gmail": {
-      "contextualTriggers": [{
-        "unconditional": {
-        },
-        "onTriggerFunction": "onGmailMessage"
-      }],
-      "composeTrigger": {
-        "selectActions": [{
-          "text": "Compose Action",
-          "runFunction": "onGmailCompose"
-        }],
-        "draftAccess": "NONE"
-      },
-      "homepageTrigger": {
-        "runFunction": "onGmailHomepage"
-      }
-    }
-  }
+	"timeZone": "America/New_York",
+	"dependencies": {
+		"libraries": [
+			{
+				"userSymbol": "BetterLog",
+				"libraryId": "1DSyxam1ceq72bMHsE6aOVeOl94X78WCwiYPytKi7chlg4x5GqiNXSw0l",
+				"version": "27"
+			}
+		]
+	},
+	"exceptionLogging": "STACKDRIVER",
+	"urlFetchWhitelist": [],
+	"runtimeVersion": "V8",
+	"oauthScopes": [
+		"https://mail.google.com/",
+		"https://www.googleapis.com/auth/gmail.addons.current.action.compose",
+		"https://www.googleapis.com/auth/gmail.addons.execute",
+		"https://www.googleapis.com/auth/script.external_request",
+		"https://www.googleapis.com/auth/script.scriptapp",
+		"https://www.googleapis.com/auth/spreadsheets"
+	],
+	"addOns": {
+		"common": {
+			"name": "DisposeMail",
+			"logoUrl": "https://cdn1.iconfinder.com/data/icons/crowns/154/simple-crown-512.png",
+			"homepageTrigger": {
+				"runFunction": "onHomepage",
+				"enabled": false
+			},
+			"universalActions": [
+				{
+					"label": "label",
+					"openLink": "http://example.com"
+				},
+				{
+					"label": "label2",
+					"openLink": "http://example.com"
+				}
+			]
+		},
+		"gmail": {
+			"contextualTriggers": [
+				{
+					"unconditional": {},
+					"onTriggerFunction": "onGmailMessage"
+				}
+			],
+			"composeTrigger": {
+				"selectActions": [
+					{
+						"text": "Compose Action",
+						"runFunction": "onGmailCompose"
+					}
+				],
+				"draftAccess": "NONE"
+			},
+			"homepageTrigger": {
+				"runFunction": "onGmailHomepage"
+			}
+		}
+	}
 }
