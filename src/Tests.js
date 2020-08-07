@@ -1,14 +1,3 @@
-if ((typeof GasTap)==='undefined') { // GasT Initialization. (only if not initialized yet.)
-    let cs = CacheService.getScriptCache().get('gast');
-    if(!cs){
-      cs = UrlFetchApp.fetch('https://raw.githubusercontent.com/huan/gast/master/src/gas-tap-lib.js').getContentText();
-      CacheService.getScriptCache().put('gast', cs, 21600);
-    }
-    eval(cs);
-} // Class GasTap is ready for use now!
-
-var test = new GasTap();
-
 function testsRunner() {
     test('saveFrequencies', (t) => {
         let data = '{"Promotions/Seeed Studios":"day","People/Ariel Henry":"day","Promotions/GOG.com":"day","Factures":"day","Promotions/Free Games":"day","People/Lucie Boulanger":"day","Promotions/Banggood.com":"day","Bibliotheque":"day","Security": "day","Promotions/Humble Bundle":"day","Promotions":"day","Promotions/Instructables":"day","Promotions/Canadian Tire":"day","Promotions/Newark":"day","People":"day"}'

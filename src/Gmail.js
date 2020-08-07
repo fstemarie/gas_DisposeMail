@@ -19,7 +19,7 @@ function onChange(e) {
 
 function onClickRun(e) {
     let lblFreqs = loadFrequencies();
-    deleteMail(e);
+    deleteMessages(e);
     var actionResponse = CardService.newActionResponseBuilder()
         .setNotification(CardService.newNotification()
         .setText("Deleted old eMails"))
