@@ -2,11 +2,15 @@
 if (ScriptApp.getProjectTriggers().Length == 0) install();
 
 function install() {
-  ScriptApp.newTrigger('deleteMail').timeBased().everyDays(1).create();
+	ScriptApp.newTrigger('deleteMail').timeBased().everyDays(1).create();
 }
 
 function unInstall() {
-  ScriptApp.getProjectTriggers().forEach( (trigger) => {
-    ScriptApp.deleteTrigger(trigger);
-  });
+	ScriptApp.getProjectTriggers().forEach((trigger) => {
+		ScriptApp.deleteTrigger(trigger);
+	});
+}
+
+function deleteMail_tt() {
+	deleteMail();
 }
