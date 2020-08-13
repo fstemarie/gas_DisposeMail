@@ -1,4 +1,47 @@
-// Prepare the mail to be deleted
+function deleteMail() {
+	const timeSlotMin = 1;
+	const triggerName = "DelayedDeletion";
+	const cache = CacheService.getUserCache();
+
+	ScriptApp.getUserTriggers().forEach((t) => {
+		if (t.getHandlerFunction() == triggerName) {
+			var trigger = t
+		}
+	})
+
+	let storedMsgIdsJSON = cache.get("messages");
+	if (storedMsgIdsJSON) {
+		let msgIds = JSON.parse(storedMsgIdsJSON);
+		let stop = new moment().add(timeSlotMin, "minute");
+		while (msgIds.lenght > 0 && moment().isBefore(stop)) {
+			let id = msgIds.pop();
+			try {
+				let msg = GmailApp.getMessageById(id);
+				msg.moteToTrash();
+				Utilities.sleep(100);
+			} catch {}
+		}
+		// If there is still more messages to process...
+		if (msgIds.lenght > 0) {
+			storedMsgIdsJSON = JSON.stringify(msgIds);
+			// Store the remaining messages in the cache and...
+			cache.put("messages", storedMsgIdsJSON);
+			// Create a trigger to process the remaining messages
+			if (typeof trigger == "undefined") {
+				ScriptApp.newTrigger(triggerName).timeBased().everyMinutes(1).create();
+			}
+		} else {
+			// we have processed all messages so we can delete the trigger
+			if (!typeof trigger == "undefined") {
+				ScriptApp.deleteTrigger(t);
+			}
+		}
+	}
+
+
+}
+
+// Prepares the mail to be deleted
 function prepareMail() {
 	const cache = CacheService.getUserCache();
 	let lblFreqs, messages, msgIds = [];
@@ -14,30 +57,7 @@ function prepareMail() {
 	deleteMail();
 }
 
-function deleteMail() {
-	const cache = CacheService.getUserCache();
-	let storedMsgIdsJSON = cache.get("messages");
-	let stop = new moment().add(1, "minute");
-
-	if (storedMsgIdsJSON) {
-		let msgIds = JSON.parse(storedMsgIdsJSON);
-		while (msgIds.lenght > 0 && moment().isBefore(stop)) {
-			let id = msgIds.pop();
-			try {
-				let msg = GmailApp.getMessageById(id);
-			} catch {
-				continue;
-			}
-			msg.moteToTrash();
-			Utilities.sleep(100);
-		}
-		storedMsgIdsJSON = JSON.stringify(msgIds);
-		cache.put("messages", storedMsgIdsJSON);
-	}
-
-
-}
-
+// Go through the user's labels and find the mail to be deleted
 function getMessagesToDelete(lblFreqs) {
 	let threads, beforeDate;
 	let messages = [];
@@ -84,6 +104,7 @@ function deleteMessages(messages = []) {
 	}
 }
 
+// Take the stored list of labels/frequencies and cross reference it with the user's labels
 function loadFrequencies(propName = "frequencies") {
 	let lblFreqs = {};
 
@@ -101,6 +122,7 @@ function loadFrequencies(propName = "frequencies") {
 	return lblFreqs;
 }
 
+// Save the current labels/frequencies to a user's property
 function saveFrequencies(inputs, propName = "frequencies") {
 	let lblFreqs = {};
 
